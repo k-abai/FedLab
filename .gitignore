@@ -1,0 +1,5 @@
+venv/
+train/
+__pycache__/
+data_csv/
+*.save

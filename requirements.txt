@@ -1,0 +1,8 @@
+glob2
+joblib
+Matplotlib
+numpy
+os
+pandas
+scikit-learn
+tensorflow
