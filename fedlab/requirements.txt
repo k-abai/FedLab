@@ -1,0 +1,14 @@
+transformers>=4.40.0
+peft>=0.10.0
+accelerate>=0.29.0
+bitsandbytes>=0.43.0
+trl>=0.8.0
+torch>=2.2.0
+datasets>=2.18.0
+pandas>=2.0.0
+pyarrow>=14.0.0
+requests>=2.31.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+ipfshttpclient>=0.8.0
+python-dotenv>=1.0.0

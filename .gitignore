@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+.env.local
+
+# Build artifacts
+fedlab/frontend/node_modules/
+fedlab/frontend/.next/
+fedlab/frontend/out/
+
+# Local-only training/runtime artifacts
+fedlab/data/train.jsonl
+fedlab/data/eval.jsonl
+fedlab/model/adapters/
+fedlab/model/eval_results.json
+fedlab/aggregator/state.json
