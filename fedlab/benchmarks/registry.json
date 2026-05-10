@@ -1,0 +1,8 @@
+{
+  "prediction_markets": {
+    "module": "benchmarks.prediction_markets.evaluate",
+    "metric": "brier_score",
+    "threshold": 0.05,
+    "description": "Polymarket resolved binary markets"
+  }
+}
