@@ -1,3 +1,2 @@
-# NFL-Big-Data-Bowl
-NFL Big Data Bowl 2026 - Analytics Understand player movement while the ball is in the air
-Kaggle competition - INCOMPLETE
+# FedLAB
+An opensource decentralized fedrated learning for training, contributing, and using top edge-models
