@@ -20,6 +20,8 @@ export default function App({ Component, pageProps }) {
         <Link href="/" className="brand">FedLab</Link>
         <div className="links row-flex">
           <Link href="/">Home</Link>
+          <Link href="/registry">Registry</Link>
+          <Link href="/packets">Validation Packets</Link>
           <Link href="/leaderboard">Leaderboard</Link>
           <WalletConnect />
         </div>

@@ -4,8 +4,10 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import sys
 import threading
+import uuid
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +20,10 @@ if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
 from benchmarks.evaluate import current_week_seed, load_registry  # noqa: E402
+from integrations import bags as bags_integration  # noqa: E402
+from integrations import solana as solana_integration  # noqa: E402
+from registry import registry as model_registry  # noqa: E402
+from validation_packets import packets as validation_packets  # noqa: E402
 
 from .validate import decide_action, validate_contribution  # noqa: E402
 
@@ -55,6 +61,15 @@ class Contribution(BaseModel):
     contributor_wallet: str
     domain: str = DEFAULT_DOMAIN
     ipfs_cid: str
+
+
+class ModelSubmission(BaseModel):
+    name: str
+    domain: str
+    benchmark: str
+    contributor_wallet: str = ""
+    version: str = "0.1.0"
+    notes: str = ""
 
 
 def _pull_from_ipfs(cid: str) -> Path:
@@ -166,3 +181,80 @@ def contribute(contrib: Contribution) -> dict[str, Any]:
         save_state(state)
 
     return {"status": "ok", "score": new_score, "delta": delta, "action": action}
+
+
+# --- Verified model registry (simplified MVP) ---------------------------------
+
+
+@app.get("/registry/models")
+def registry_models() -> dict[str, Any]:
+    return {"models": model_registry.list_models()}
+
+
+@app.get("/registry/models/{model_id}")
+def registry_model(model_id: str) -> dict[str, Any]:
+    model = model_registry.get_model(model_id)
+    if model is None:
+        raise HTTPException(status_code=404, detail=f"unknown model: {model_id}")
+    return model
+
+
+@app.post("/registry/submit")
+def registry_submit(submission: ModelSubmission) -> dict[str, Any]:
+    """Queue a model for validation. Does not run validation yet — returns a
+    candidate row that a future packet run will verify."""
+    slug = re.sub(r"[^a-z0-9]+", "-", submission.name.lower()).strip("-") or "model"
+    model_id = f"{slug}-{uuid.uuid4().hex[:6]}"
+    row = model_registry.new_model_row(
+        model_id=model_id,
+        name=submission.name,
+        domain=submission.domain,
+        benchmark=submission.benchmark,
+        version=submission.version,
+        status="candidate",
+        contributor_wallet=submission.contributor_wallet,
+        validation_date="",
+        notes=submission.notes or "Submitted via /registry/submit; awaiting validation packet run.",
+    )
+    try:
+        model_registry.append_model(row)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    return {"status": "queued", "model": row}
+
+
+# --- Validation packets -------------------------------------------------------
+
+
+@app.get("/validation-packets")
+def list_validation_packets() -> dict[str, Any]:
+    return {"packets": validation_packets.list_packets()}
+
+
+@app.get("/validation-packets/{packet_id}")
+def get_validation_packet(packet_id: str) -> dict[str, Any]:
+    packet = validation_packets.get_packet(packet_id)
+    if packet is None:
+        raise HTTPException(status_code=404, detail=f"unknown packet: {packet_id}")
+    return packet
+
+
+# --- Integration status (Bags + Solana) ---------------------------------------
+
+
+@app.get("/integrations/status")
+def integrations_status() -> dict[str, Any]:
+    return {
+        "bags": bags_integration.get_integration_status(),
+        "solana": solana_integration.get_integration_status(),
+    }
+
+
+@app.get("/integrations/bags/project")
+def bags_project() -> dict[str, Any]:
+    return bags_integration.get_project_stats()
+
+
+@app.get("/integrations/bags/token")
+def bags_token() -> dict[str, Any]:
+    return bags_integration.get_token_stats()

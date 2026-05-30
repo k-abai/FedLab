@@ -1,0 +1,23 @@
+{
+  "id": "reservoir_finance",
+  "domain": "finance",
+  "benchmark": "Financial reservoir validation packet",
+  "dataset_summary": "Held-out financial time-series (e.g. daily returns / level series). A reservoir-computing model produces one-step-ahead forecasts over a fixed evaluation window. Scored on point-forecast error and directional accuracy, with strict leakage controls so no future information enters the feature window.",
+  "metric": "rmse",
+  "current_best_score": "0.037 RMSE",
+  "evaluation_command": "python -m validation_packets.reservoir_finance.evaluate --predictions <predictions.json>",
+  "leakage_checks": [
+    "no_future_leakage_in_features",
+    "evaluation_window_is_strictly_out_of_sample",
+    "no_overlap_between_warmup_and_eval",
+    "timestamps_monotonic_increasing"
+  ],
+  "evaluation_window": {
+    "warmup_steps": 200,
+    "eval_steps": 250,
+    "horizon": 1
+  },
+  "validation_hash": null,
+  "status": "candidate",
+  "notes": "Demo seed packet. evaluate.py is a dependency-light scaffold computing RMSE/MAE and directional accuracy from a predictions file. RMSE shown is an illustrative target."
+}

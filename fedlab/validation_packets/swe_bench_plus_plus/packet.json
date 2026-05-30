@@ -1,0 +1,17 @@
+{
+  "id": "swe_bench_plus_plus",
+  "domain": "software_engineering",
+  "benchmark": "SWE-bench++",
+  "dataset_summary": "Held-out set of real GitHub issue + repository snapshots. A model must produce a patch that, when applied, makes the failing test suite pass without breaking existing tests. SWE-bench++ extends the public SWE-bench task format with a private held-out split and stricter test-isolation to reduce contamination.",
+  "metric": "resolved_rate",
+  "current_best_score": "18.4% pass",
+  "evaluation_command": "python -m validation_packets.swe_bench_plus_plus.evaluate --predictions <predictions.jsonl>",
+  "leakage_checks": [
+    "held_out_split_not_in_pretraining",
+    "issue_hash_blocklist",
+    "patch_must_modify_only_in_repo_files"
+  ],
+  "validation_hash": null,
+  "status": "demo",
+  "notes": "Demo packet definition. Score is an illustrative target until a live harness is wired. The full SWE-bench++ harness (container build + test execution) is intentionally out of scope for this scaffold."
+}

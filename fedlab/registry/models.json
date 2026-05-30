@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "models": [
+    {
+      "id": "swe-model-v0",
+      "name": "SWE-Agent-LoRA-v0",
+      "domain": "software_engineering",
+      "benchmark": "SWE-bench++",
+      "score": "18.4% pass",
+      "metric": "resolved_rate",
+      "version": "0.1.0",
+      "status": "demo_verified",
+      "contributor_wallet": "FZiQDemoWa11etSWE000000000000000000000000000",
+      "validation_date": "2026-05-29",
+      "validation_hash": null,
+      "bags_token": null,
+      "onchain_proof": null,
+      "notes": "Seed/demo row. Score is an illustrative target, not a live result. Status becomes verified once the SWE-bench++ validation packet is wired to a real run."
+    },
+    {
+      "id": "tabpfn-fedlab-v0",
+      "name": "TabPFN-FedLab-v0",
+      "domain": "tabular",
+      "benchmark": "TabPFN validation packet",
+      "score": "0.91 ROC-AUC",
+      "metric": "roc_auc",
+      "version": "0.1.0",
+      "status": "candidate",
+      "contributor_wallet": "FZiQDemoWa11etTAB000000000000000000000000000",
+      "validation_date": "2026-05-29",
+      "validation_hash": null,
+      "bags_token": null,
+      "onchain_proof": null,
+      "notes": "Demo seed row. Candidate pending validation packet run. ROC-AUC shown is an illustrative target."
+    },
+    {
+      "id": "reservoir-fin-v0",
+      "name": "Reservoir-Fin-v0",
+      "domain": "finance",
+      "benchmark": "Financial reservoir validation packet",
+      "score": "0.037 RMSE",
+      "metric": "rmse",
+      "version": "0.1.0",
+      "status": "candidate",
+      "contributor_wallet": "FZiQDemoWa11etFIN000000000000000000000000000",
+      "validation_date": "2026-05-29",
+      "validation_hash": null,
+      "bags_token": null,
+      "onchain_proof": null,
+      "notes": "Demo seed row. Candidate pending validation packet run with leakage checks. RMSE shown is an illustrative target."
+    }
+  ]
+}

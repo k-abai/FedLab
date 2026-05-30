@@ -1,0 +1,17 @@
+{
+  "id": "tabpfn",
+  "domain": "tabular",
+  "benchmark": "TabPFN validation packet",
+  "dataset_summary": "Suite of small/medium tabular classification tasks (held-out). Models are scored on probabilistic predictions for a binary or multiclass target. Designed around the TabPFN regime: limited rows, no per-task gradient training required.",
+  "metric": "roc_auc",
+  "current_best_score": "0.91 ROC-AUC",
+  "evaluation_command": "python -m validation_packets.tabpfn.evaluate --predictions <predictions.json>",
+  "leakage_checks": [
+    "held_out_rows_not_in_fit_set",
+    "no_target_column_in_features",
+    "row_ids_disjoint_train_test"
+  ],
+  "validation_hash": null,
+  "status": "candidate",
+  "notes": "Demo seed packet. The evaluate.py scaffold computes ROC-AUC from a predictions file with no heavy TabPFN dependency. Score shown is an illustrative target."
+}

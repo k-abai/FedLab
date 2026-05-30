@@ -1,60 +1,88 @@
-import { useEffect, useState } from "react";
-import ModelCard from "../components/ModelCard";
-
-const AGGREGATOR = process.env.NEXT_PUBLIC_AGGREGATOR_URL || "http://localhost:8000";
+import Link from "next/link";
+import { MODELS, DOMAIN_LABELS, statusLabel } from "../lib/registryData";
 
 export default function Home() {
-  const [model, setModel] = useState(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let alive = true;
-    fetch(`${AGGREGATOR}/model/latest`)
-      .then((r) => r.json())
-      .then((j) => {
-        if (alive) setModel(j);
-      })
-      .catch((e) => {
-        if (alive) setError(String(e));
-      });
-    return () => {
-      alive = false;
-    };
-  }, []);
-
   return (
     <div className="container">
       <section className="hero">
-        <h1>Community-trained AI models. Free forever.</h1>
+        <h1>Verified AI models for real-world domains.</h1>
         <p>
-          FedLab is a federated training network. Anyone can fine-tune the model on
-          their own hardware, contribute a LoRA adapter, and earn rewards when their
-          contribution improves the benchmark.
+          FedLab tracks models that pass standardized validation packets across
+          software engineering, tabular prediction, and financial forecasting.
         </p>
+        <div style={{ marginTop: 24 }}>
+          <Link className="btn" href="/registry">
+            View Model Registry
+          </Link>
+        </div>
       </section>
 
-      <ModelCard model={model} />
-      {error ? <div className="muted">Aggregator offline: {error}</div> : null}
+      <div className="card">
+        <h2>Verified tracks</h2>
+        <div className="steps">
+          {MODELS.map((m) => (
+            <div className="step" key={m.id}>
+              <div className="num">{DOMAIN_LABELS[m.domain] || m.domain}</div>
+              <h3>{m.name}</h3>
+              <p>
+                {m.benchmark} · {m.score}
+                <br />
+                <span className={`badge badge-${m.status}`}>
+                  {statusLabel(m.status)}
+                </span>
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
 
       <div className="card">
-        <h2>How it works</h2>
+        <h2>How verification works</h2>
         <div className="steps">
           <div className="step">
             <div className="num">01</div>
-            <h3>Download</h3>
-            <p>Pull the latest base model and community-merged adapter via IPFS.</p>
+            <h3>Submit</h3>
+            <p>A contributor submits a model to the registry for a domain.</p>
           </div>
           <div className="step">
             <div className="num">02</div>
-            <h3>Train</h3>
-            <p>Fine-tune on your local data. Raw data never leaves your machine.</p>
+            <h3>Validate</h3>
+            <p>
+              The model runs the domain&apos;s validation packet — a held-out
+              benchmark with leakage checks.
+            </p>
           </div>
           <div className="step">
             <div className="num">03</div>
-            <h3>Contribute</h3>
-            <p>Submit your LoRA adapter. Pass the benchmark, earn $FZIQ.</p>
+            <h3>Verify</h3>
+            <p>
+              A passing result is recorded with a validation hash, ready to be
+              anchored on-chain.
+            </p>
           </div>
         </div>
+      </div>
+
+      <div className="card">
+        <h2>Bags + Web3 integration hooks</h2>
+        <p className="muted">
+          The backend is wired with seams for Bags API project/token stats and a
+          Solana proof-of-validation path. Live credentials and on-chain
+          contracts are <strong>not</strong> included in this build — the
+          integration modules return clearly-labeled mock/not-configured status
+          until env vars are set.
+        </p>
+        <ul className="muted" style={{ marginTop: 8 }}>
+          <li>
+            Bags: <code>get_project_stats()</code>,{" "}
+            <code>get_token_stats()</code>, <code>get_integration_status()</code>
+          </li>
+          <li>
+            Solana: <code>build_validation_proof()</code>,{" "}
+            <code>check_onchain_proof()</code> (no token mint/transfer, no
+            contract)
+          </li>
+        </ul>
       </div>
     </div>
   );
