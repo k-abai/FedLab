@@ -17,3 +17,7 @@ fedlab/data/eval.jsonl
 fedlab/model/adapters/
 fedlab/model/eval_results.json
 fedlab/aggregator/state.json
+
+# Advisory agent outputs (keep the dir via .gitkeep, ignore generated runs)
+fedlab/agents/out/*
+!fedlab/agents/out/.gitkeep

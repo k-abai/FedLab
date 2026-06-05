@@ -1,0 +1,54 @@
+name: Validation packet
+description: Propose or improve a validation packet (dataset, metric, leakage checks, reproducibility).
+title: "[validation] "
+labels: ["validation"]
+body:
+  - type: input
+    id: domain
+    attributes:
+      label: Domain / packet
+      placeholder: "e.g. tabular (tabpfn), finance (reservoir_finance), code (swe_bench_plus_plus)"
+    validations:
+      required: true
+  - type: textarea
+    id: dataset
+    attributes:
+      label: Dataset summary
+      description: What data, held-out split, and source. Note any access constraints.
+    validations:
+      required: true
+  - type: input
+    id: metric
+    attributes:
+      label: Metric
+      placeholder: "e.g. roc_auc, rmse, pass_rate"
+    validations:
+      required: true
+  - type: textarea
+    id: leakage
+    attributes:
+      label: Leakage checks
+      description: List the checks (train/test disjoint, no target leakage, no row-id overlap, temporal leakage, etc.).
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproducibility
+      description: Exact command, expected output shape, and how the score maps to a validation hash / status.
+    validations:
+      required: true
+  - type: dropdown
+    id: untrusted
+    attributes:
+      label: Does this require executing submitted/untrusted code or models?
+      options:
+        - "No — operates on a trusted predictions file only"
+        - "Yes — needs owner-controlled sandbox (owner-only)"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Demo/illustrative vs. measured. Anything reviewers should know.

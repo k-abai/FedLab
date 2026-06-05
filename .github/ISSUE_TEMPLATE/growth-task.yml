@@ -1,0 +1,29 @@
+name: Growth task
+description: Launch, outreach, community, or user-research task. Drafts only — nothing is posted automatically.
+title: "[growth] "
+labels: ["growth"]
+body:
+  - type: dropdown
+    id: channel
+    attributes:
+      label: Channel / surface
+      options: ["Launch plan", "X / Twitter", "Discord", "GitHub", "User interviews", "Other"]
+    validations:
+      required: true
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Deliverable
+      description: The concrete draft or plan to produce.
+    validations:
+      required: true
+  - type: textarea
+    id: dod
+    attributes:
+      label: Definition of done
+      description: When is this complete? Keep claims honest — no invented metrics or financial promises.
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: "Reminder: outreach is drafted for owner review. Do not promise token value/returns; do not invent traction."

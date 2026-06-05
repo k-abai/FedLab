@@ -125,6 +125,14 @@ transfers.**
 See `docs/HANDOFF_2026-05-29.md` for the full handoff, including suggested next
 tasks and Bags submission language.
 
+## Autonomous agent operating model
+
+The launch is driven by **advisory** local-Ollama agents (architect, security,
+backend, validation, frontend, growth, Bags/Web3, fundraising). Agents produce
+plans, drafts, and findings; the human owner implements anything sensitive
+(auth, wallets, tokens, secrets). See [`agents/README.md`](agents/README.md) and
+the [`docs/GITHUB_OPERATING_MODEL.md`](docs/GITHUB_OPERATING_MODEL.md).
+
 ## Future direction (federated training)
 
 The original federated LoRA contribution loop — local training, IPFS adapter

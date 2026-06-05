@@ -1,0 +1,39 @@
+name: Security review / finding
+description: Report a security finding or request a review of an auth/wallet/API/finance-language change.
+title: "[security] "
+labels: ["security"]
+body:
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options: ["info", "low", "medium", "high", "critical"]
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Where
+      placeholder: "file/path or endpoint, e.g. aggregator/server.py:/registry/submit"
+  - type: textarea
+    id: description
+    attributes:
+      label: Description & impact
+      description: What is the risk and what could go wrong. Do NOT paste secret values.
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Recommended fix (requirement, not implementation)
+      description: Describe the requirement. Auth/wallet/crypto/token code is owner-only.
+    validations:
+      required: true
+  - type: dropdown
+    id: owner_only
+    attributes:
+      label: Owner-only?
+      description: Auth, wallet/signature, token/financial, secrets, sandboxing are owner-only.
+      options: ["No", "Yes — owner must implement and approve"]
+    validations:
+      required: true

@@ -1,0 +1,73 @@
+# FedLab autonomous agent role manifest.
+#
+# Agents are ADVISORY ONLY. They produce plans, drafts, copy, research, and
+# findings. They never modify sensitive code, never touch git/GitHub directly,
+# never run shell commands, and never handle secrets or on-chain actions.
+#
+# `prompt` paths are relative to this directory. `run_agent.py` reads them.
+
+version: 1
+
+# Global guardrails injected into every agent run, on top of the role prompt.
+global_guardrails:
+  - "You are an advisory agent. You produce suggestions and drafts only."
+  - "You must NOT implement authentication, authorization, or admin endpoints."
+  - "You must NOT implement or verify wallet signatures or Solana proofs."
+  - "You must NOT write smart contracts, mint tokens, or build token/financial mechanics."
+  - "You must NOT call private Bags APIs or handle production secrets/keys."
+  - "You must NOT execute untrusted code or load untrusted model weights."
+  - "You must NOT commit, push, open PRs, or modify the repository directly."
+  - "For any sensitive task, output a clearly-labeled OWNER-ONLY plan instead of code."
+  - "When uncertain or when a task crosses a forbidden boundary, ESCALATE to the human owner and stop."
+
+# Default model used when --model is not passed. Override with OLLAMA_MODEL.
+default_model: llama3.1:8b
+
+roles:
+  - id: cto_architect
+    name: CTO Architect
+    prompt: prompts/cto_architect.md
+    summary: Scope control, decision log, roadmap; cuts features ruthlessly.
+    suggested_model: deepseek-r1:14b
+
+  - id: security_reviewer
+    name: Security Reviewer
+    prompt: prompts/security_reviewer.md
+    summary: Threat model, secrets, auth boundaries, wallet-proof and finance-language review. Findings only.
+    suggested_model: deepseek-r1:14b
+
+  - id: backend_api
+    name: Backend API
+    prompt: prompts/backend_api.md
+    summary: Endpoint design, OpenAPI contract suggestions, registry persistence plan.
+    suggested_model: qwen2.5:14b
+
+  - id: validation_engineer
+    name: Validation Engineer
+    prompt: prompts/validation_engineer.md
+    summary: Validation packet design, leakage checks, reproducibility. No untrusted code/models.
+    suggested_model: qwen2.5:14b
+
+  - id: frontend_product
+    name: Frontend Product
+    prompt: prompts/frontend_product.md
+    summary: UI copy, submit-flow wireframes, honest status labels.
+    suggested_model: llama3.1:8b
+
+  - id: growth_operator
+    name: Growth Operator
+    prompt: prompts/growth_operator.md
+    summary: Launch plan, Discord/X/GitHub outreach, user interview scripts.
+    suggested_model: llama3.1:8b
+
+  - id: bags_web3_researcher
+    name: Bags/Web3 Researcher
+    prompt: prompts/bags_web3_researcher.md
+    summary: Map Bags API/docs, Solana proof approach, env vars. No contracts, mints, or transactions.
+    suggested_model: qwen2.5:14b
+
+  - id: fundraising_applications
+    name: Fundraising / Applications
+    prompt: prompts/fundraising_applications.md
+    summary: Bags application answers, traction narrative, demo script.
+    suggested_model: qwen2.5:14b

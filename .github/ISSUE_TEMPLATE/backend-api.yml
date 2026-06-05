@@ -1,0 +1,33 @@
+name: Backend API
+description: Propose an endpoint, contract change, or registry persistence change.
+title: "[backend] "
+labels: ["backend"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What endpoint/contract/persistence change and why.
+    validations:
+      required: true
+  - type: textarea
+    id: contract
+    attributes:
+      label: Request / response contract
+      description: Method, path, request schema, response schema, status codes, error shape.
+    validations:
+      required: true
+  - type: dropdown
+    id: sensitive
+    attributes:
+      label: Touches auth, admin, wallet verification, token, or financial logic?
+      options:
+        - "No"
+        - "Yes — owner-only design + implementation + security review"
+    validations:
+      required: true
+  - type: textarea
+    id: test_plan
+    attributes:
+      label: Test / verify plan
+      placeholder: "python -m compileall fedlab; curl localhost:8000/..."
